@@ -4,7 +4,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 copy . .
 RUN npm run build
-EXPOSE 5173 
+EXPOSE 3001
 
 # biar bisa diakses external
 CMD ["npm", "run", "dev", "--", "--host"] 
