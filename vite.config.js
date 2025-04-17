@@ -8,4 +8,10 @@ export default defineConfig({
     tailwindcss(),
     react()
   ],
+
+  server: {
+    host: true, // supaya bisa diakses dari luar
+    port: process.env.PORT || 5173,
+    allowedHosts: ['.run.app'], // biar semua *.run.app dari Cloud Run boleh akses
+  }
 })
