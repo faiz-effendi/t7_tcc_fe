@@ -1,0 +1,13 @@
+runtime: nodejs18
+service: default
+
+handlers:
+  # Handle semua file statis di dist/
+  - url: /(.*\.(css|js|png|jpg|jpeg|gif|svg|ico|webp|ttf|woff|woff2|eot))
+    static_files: dist/\1
+    upload: dist/(.*)
+
+  # Fallback semua route ke index.html
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
