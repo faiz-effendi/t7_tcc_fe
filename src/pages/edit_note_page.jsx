@@ -18,7 +18,11 @@ function EditNote() {
   useEffect(() => {
     const fetchNote = async () => {
       await axios
-        .get(`${API_URL}/notes/id/${id}`)
+        .get(`${API_URL}/notes/id/${id}`, {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
+          }
+        })
         .then((result) => {
           setFormData({
             owner: result.data[0].owner,

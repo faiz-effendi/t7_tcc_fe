@@ -22,7 +22,11 @@ function AddNote() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
     await axios
-      .post(`${API_URL}/notes`, formData)
+      .post(`${API_URL}/notes`, formData, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
+        }
+      })
       .then((response) => {
         setResponse(response.data);
         console.log("Success:", res.data);

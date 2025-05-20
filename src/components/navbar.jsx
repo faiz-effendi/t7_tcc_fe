@@ -22,15 +22,27 @@ function NavBar({ search, setSearch }) {
           </span>
         </div>
 
-        <button 
-          className='bg-gray-400 hover:bg-green-500 cursor-default px-2 py-2 rounded font-semibold text-white flex gap-1 items-center'
-          onClick={() => navigate('/add-note')}
-        >
-          <div className="left-3 flex items-center text-white">
-            <i className="fas fa-plus"></i> {/* Ikon Search */}
-          </div>
-          <p>Add Note</p>
-        </button>
+        <div className="flex gap-4">
+          <button 
+            className='bg-gray-400 hover:bg-green-500 cursor-default px-2 py-2 rounded font-semibold text-white flex gap-1 items-center'
+            onClick={() => navigate('/add-note')}
+          >
+            <div className="left-3 flex items-center text-white">
+              <i className="fas fa-plus"></i> {/* Ikon Search */}
+            </div>
+            <p>Add Note</p>
+          </button>
+
+          <button 
+            className='border-2 border-red-400 hover:bg-red-500  text-red-400 hover:text-white cursor-default px-3 py-2 rounded font-semibold flex gap-1 items-center'
+            onClick={() => {
+              localStorage.removeItem('localSavedUserData');
+              navigate('/')}
+            }
+          >
+            <p>Logout</p>
+          </button>
+        </div>
       </div>
     </nav>
   );

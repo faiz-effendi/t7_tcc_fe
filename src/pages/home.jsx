@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import NoteCard from '../components/notes_card';
@@ -12,7 +12,11 @@ function Home() {
 
   const fetchNotes = async () => {
     await axios
-      .get(`${API_URL}/notes${search ? `/${search}` : ""}`)
+      .get(`${API_URL}/notes${search ? `/${search}` : ""}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
+        }
+      })
       .then((response) => {
         setNotes(response.data);
       })
@@ -32,7 +36,11 @@ function Home() {
 
   const handleDelete = async (noteId) => {
     await axios
-      .delete(`${API_URL}/notes${noteId ? `/${noteId}` : ""}`)
+      .delete(`${API_URL}/notes${noteId ? `/${noteId}` : ""}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
+        }
+      })
       .then((response) => {
         setAlertMessage(`Successfully deleted note`);
         setShowAlert(true);
@@ -54,8 +62,9 @@ function Home() {
       <div className='flex items-center flex-col min-h-screen bg-gray-100 pt-24 pb-14'>
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl h-fit auto-rows-min px-4'>
           {notes.length > 0 ? (
-            notes.map((note) => (
+            notes.map((note, key) => (
               <NoteCard
+                key={key}
                 owner={note.owner}
                 title={note.title}
                 content={note.contain}
