@@ -1,39 +1,15 @@
 steps:
-  # build docker image 
-  - name: "gcr.io/cloud-builders/docker"
-    args: 
-      [
-        "build",
-        "-t",
-        "gcr.io/$PROJECT_ID/t6-tcc-fe-fz",
-        "." 
-      ]
-  
-  # push docker image ke Container Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "gcr.io/$PROJECT_ID/t6-tcc-fe-fz"
-      ]
-  
-  # deploy docker image ke Cloud Run
-  - name: "gcr.io/cloud-builders/gcloud"
-    args:
-      [
-        "run",
-        "deploy",
-        "t6-tcc-fe-fz",
-        "--image",
-        "gcr.io/$PROJECT_ID/t6-tcc-fe-fz",
-        "--timeout",
-        "1600s",
-        "--port",
-        "5173",
-        "--region",
-        "us-central1",
-        "--allow-unauthenticated",
-      ]
-    
-options:
-  logging: CLOUD_LOGGING_ONLY
+  # Step 1: Install dependencies
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['install']
+
+  # Step 2: Build Vite app
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['run', 'build']
+
+  # Step 3: Deploy ke App Engine
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['app', 'deploy', '--quiet']

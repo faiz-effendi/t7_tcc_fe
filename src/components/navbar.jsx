@@ -1,7 +1,26 @@
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function NavBar({ search, setSearch }) {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const handleLogout = async() => {
+    await axios
+      .delete(`${API_URL}/logout`, { withCredentials: true })
+      .then((response) => {
+        if (response.status == 200) {
+          console.log("Logout successful");
+          localStorage.removeItem('localSavedUserData');
+          navigate('/');
+        } else {
+          console.log("Logout failed: ", response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log("Error during logout: ", error.response.data.message);
+      })
+  }
 
   return (
     <nav className='flex items-center justify-center py-2.5 bg-gray-100 shadow-lg z-10 fixed top-0 left-0 w-full'>
@@ -35,10 +54,7 @@ function NavBar({ search, setSearch }) {
 
           <button 
             className='border-2 border-red-400 hover:bg-red-500  text-red-400 hover:text-white cursor-default px-3 py-2 rounded font-semibold flex gap-1 items-center'
-            onClick={() => {
-              localStorage.removeItem('localSavedUserData');
-              navigate('/')}
-            }
+            onClick={ handleLogout }
           >
             <p>Logout</p>
           </button>

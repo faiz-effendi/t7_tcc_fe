@@ -10,7 +10,7 @@ function Login() {
 
   const handleLogin = async () => {
     await axios
-      .post(`${API_URL}/login`, { email, password })
+      .post(`${API_URL}/login`, { email, password }, { withCredentials: true })
       .then((response) => {
         console.log("Login successful", response.data);
         localStorage.setItem("localSavedUserData", JSON.stringify({ accessToken: response.data.accessToken }));
